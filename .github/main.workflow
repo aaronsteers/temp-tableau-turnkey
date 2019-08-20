@@ -1,9 +1,12 @@
 workflow "CI-Build" {
   on = "push"
-  resolves = ["command"]
+  resolves = ["build"]
 }
 
-action "command" {
-  uses = "actions/docker/cli@fe7ed3ce992160973df86480b83a2f8ed581cd50"
-  runs = "docker build ."
+action "build" {
+  uses = "."
+  env = {
+    MY_NAME = "Mona"
+  }
+  args = "\"Hello world, I'm $MY_NAME!\""
 }

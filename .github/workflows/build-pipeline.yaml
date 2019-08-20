@@ -1,0 +1,44 @@
+name: CI-Build
+
+on: [push]
+
+jobs:
+
+  pre-test:
+    name: Preliminary tests
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Pre-test
+        uses: ./actions/pre-test
+
+  build:
+    name: Build Docker Image
+    runs-on: ubuntu-18.04
+    needs: pre-test
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Pre-test
+        uses: ./docker-image
+
+  test:
+    name: Test Docker Image
+    runs-on: ubuntu-18.04
+    needs: build
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Run image tests
+        uses: ./docker-image
+
+  deploy:
+    name: Deploy Docker Image
+    runs-on: ubuntu-18.04
+    needs: [build, test]
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Deploy step
+        uses: ./deploy

@@ -1,0 +1,14 @@
+name: CI-Build
+on: [push]
+jobs:
+  pre-test:
+    name: Preliminary tests
+    steps:
+      - uses: actions/pre-test
+  build:
+    name: Build Docker Image
+    needs: pre-test
+  test:
+    needs: build
+  deploy:
+    needs: [build, test]

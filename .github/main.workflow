@@ -4,7 +4,7 @@ workflow "CI-Build" {
 }
 
 action "build" {
-  uses = "."
+  uses = "./docker-image"
   env = {
     MY_NAME = "Mona"
   }

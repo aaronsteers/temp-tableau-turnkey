@@ -4,11 +4,21 @@ jobs:
   pre-test:
     name: Preliminary tests
     steps:
-      - uses: actions/pre-test
+      - name: Pre-test
+        uses: ./actions/pre-test
   build:
     name: Build Docker Image
     needs: pre-test
+    steps:
+      - name: Pre-test
+        uses: ./docker-image
   test:
     needs: build
+    steps:
+      - name: Run image tests
+        uses: ./docker-image
   deploy:
     needs: [build, test]
+    steps:
+      - name: Deploy step
+        uses: ./deploy
